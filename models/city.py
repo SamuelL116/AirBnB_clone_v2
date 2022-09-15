@@ -1,19 +1,18 @@
 #!/usr/bin/python3
-"""module for city class"""
-import sqlalchemy
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, ForeignKey
+"""This is the city class"""
+from sqlalchemy import String, DateTime, Column, ForeignKey
 from sqlalchemy.orm import relationship
+from models.base_model import BaseModel, Base
 
 
 class City(BaseModel, Base):
     """This is the class for City
     Attributes:
-        state_id: column for state id (foreign key)
-        name: column for name of city
-        __tablename__: name of table in MySQL
+        state_id: The state id
+        name: input name
     """
     __tablename__ = 'cities'
     name = Column(String(128), nullable=False)
     state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
-    places = relationship("Place", cascade="all, delete", backref="cities")
+    places = relationship('Place', backref='cities',
+                          cascade='all, delete-orphan')
